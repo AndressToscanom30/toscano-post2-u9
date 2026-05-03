@@ -34,7 +34,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/registro",
-                                "/css/**", "/js/**")
+                                "/error/403", "/css/**", "/js/**", "/error/403")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
@@ -49,7 +49,18 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/login?logout")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
-                        .permitAll());
+                        .permitAll())
+                .exceptionHandling(ex -> ex
+                        .accessDeniedPage("/error/403"))
+                .headers(headers -> headers
+                        .contentSecurityPolicy(csp -> csp
+                                .policyDirectives(
+                                        "default-src 'self'; " +
+                                        "script-src 'self' https://cdn.jsdelivr.net; " +
+                                        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; " +
+                                        "img-src 'self' data:; " +
+                                        "frame-ancestors 'none'"
+                                )));
         return http.build();
     }
 }

@@ -108,14 +108,6 @@
             font-weight: 600;
             margin-top: 10px;
         }
-        .role-badge.admin {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-        .role-badge.user {
-            background-color: #d1ecf1;
-            color: #0c5460;
-        }
         .section-title {
             color: #333;
             font-weight: 700;
@@ -147,7 +139,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/}">📚 Estudiantes</a>
+            <a class="navbar-brand" th:href="@{/}">Estudiantes</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -164,7 +156,7 @@
                     </li>
                     <li class="nav-item">
                         <form th:action="@{/logout}" method="post" class="d-inline">
-                            <button type="submit" class="nav-link" 
+                            <button type="submit" class="nav-link"
                                     style="background: none; border: none; cursor: pointer; padding: 0.5rem 0;">
                                 Cerrar Sesión
                             </button>
@@ -180,8 +172,10 @@
         <div class="container">
             <h1>Dashboard</h1>
             <p>Bienvenido, <strong sec:authentication="name"></strong></p>
-            <span class="role-badge" sec:authorize="hasRole('ADMIN')" th:text="'Administrador'" style="background-color: #fff3cd; color: #856404;"></span>
-            <span class="role-badge" sec:authorize="hasRole('USER')" th:text="'Estudiante'" style="background-color: #d1ecf1; color: #0c5460;"></span>
+            <span class="role-badge" sec:authorize="hasRole('ADMIN')"
+                  style="background-color: #fff3cd; color: #856404;">Administrador</span>
+            <span class="role-badge" sec:authorize="hasRole('USER')"
+                  style="background-color: #d1ecf1; color: #0c5460;">Estudiante</span>
         </div>
     </div>
 
@@ -192,7 +186,7 @@
             <div class="col-md-6 col-lg-4 mb-4" sec:authorize="hasRole('ADMIN')">
                 <div class="card card-custom">
                     <div class="card-header">
-                        <h5>⚙️ Administración</h5>
+                        <h5>Administración</h5>
                     </div>
                     <div class="card-body">
                         <p class="text-muted">Acceso a herramientas administrativas del sistema.</p>
@@ -207,7 +201,7 @@
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card card-custom">
                     <div class="card-header">
-                        <h5>📖 Cursos</h5>
+                        <h5>Cursos</h5>
                     </div>
                     <div class="card-body">
                         <p class="text-muted">Gestiona y visualiza los cursos disponibles del sistema.</p>
@@ -222,13 +216,18 @@
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card card-custom">
                     <div class="card-header">
-                        <h5>👤 Mi Perfil</h5>
+                        <h5>Mi Perfil</h5>
                     </div>
                     <div class="card-body">
                         <p class="text-muted">Información de tu cuenta y preferencias personales.</p>
-                        <p class="mb-3">
+                        <p class="mb-2">
                             <strong>Correo:</strong><br>
                             <small sec:authentication="name"></small>
+                        </p>
+                        <!-- th:text escapa el contenido — protección contra XSS almacenado -->
+                        <p class="mb-3">
+                            <strong>Nombre:</strong><br>
+                            <small th:text="${usuarioObj != null ? usuarioObj.nombre : ''}"></small>
                         </p>
                         <button class="btn btn-nav btn-nav-primary" disabled title="Próximamente">
                             Editar Perfil
@@ -253,11 +252,11 @@
             <div class="col-lg-4">
                 <h2 class="section-title">Acciones Rápidas</h2>
                 <a th:href="@{/cursos}" class="btn btn-nav btn-nav-primary mb-2">
-                    📖 Ir a Cursos
+                    Ir a Cursos
                 </a>
                 <form th:action="@{/logout}" method="post">
                     <button type="submit" class="btn btn-nav btn-logout">
-                        🚪 Cerrar Sesión
+                        Cerrar Sesión
                     </button>
                 </form>
             </div>
