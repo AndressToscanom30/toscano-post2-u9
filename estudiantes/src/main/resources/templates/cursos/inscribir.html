@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inscribir Estudiante - Sistema de Estudiantes</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-custom .navbar-brand {
+            font-weight: 700;
+            font-size: 22px;
+        }
+        .navbar-custom .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            transition: color 0.3s;
+            margin: 0 8px;
+        }
+        .navbar-custom .nav-link:hover {
+            color: white !important;
+        }
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+        .page-header h2 {
+            font-weight: 700;
+            margin: 0;
+            font-size: 24px;
+        }
+        .content-container {
+            max-width: 900px;
+            margin: 0 auto 40px;
+        }
+        .card-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        .card-section h4 {
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #667eea;
+        }
+        .estudiantes-inscritos {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .estudiante-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+        }
+        .estudiante-item:last-child {
+            border-bottom: none;
+        }
+        .estudiante-badge {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 12px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        .sin-inscritos {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-style: italic;
+        }
+        .estudiantes-disponibles {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .estudiante-card {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.2s;
+            background-color: #f8f9fa;
+        }
+        .estudiante-card:hover {
+            border-color: #667eea;
+            background-color: #f0f4ff;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.15);
+        }
+        .estudiante-card .nombre {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .btn-inscribir {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-inscribir:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+        .btn-volver {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 20px;
+        }
+        .btn-volver:hover {
+            background-color: #5a6268;
+            color: white;
+        }
+        .mensaje-todos-inscritos {
+            text-align: center;
+            padding: 40px;
+            background-color: #d1ecf1;
+            border-radius: 8px;
+            color: #0c5460;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}">📚 Estudiantes</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/cursos}">Cursos</a>
+                    </li>
+                    <li class="nav-item">
+                        <form th:action="@{/logout}" method="post" class="d-inline">
+                            <button type="submit" class="nav-link" 
+                                    style="background: none; border: none; cursor: pointer; padding: 0.5rem 0;">
+                                Cerrar Sesión
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container-fluid">
+            <h2>👥 Inscribir Estudiante en <strong th:text="${curso.nombre}"></strong></h2>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container-fluid py-4">
+        <div class="content-container">
+            <!-- Estudiantes Inscritos Actualmente -->
+            <div class="card-section">
+                <h4>📋 Estudiantes Actualmente Inscritos</h4>
+                <div class="estudiantes-inscritos">
+                    <div th:if="${#sets.size(curso.estudiantes) > 0}">
+                        <div th:each="est : ${curso.estudiantes}" class="estudiante-item">
+                            <span class="estudiante-badge" th:text="${est.nombre.charAt(0)}"></span>
+                            <span th:text="${est.nombre}"></span>
+                        </div>
+                    </div>
+                    <div th:if="${#sets.isEmpty(curso.estudiantes)}" class="sin-inscritos">
+                        <em>👤 Sin estudiantes inscritos aún</em>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seleccionar Estudiante -->
+            <div class="card-section">
+                <h4>➕ Selecciona un Estudiante para Inscribir</h4>
+                
+                <div th:if="${#sets.size(curso.estudiantes) == #lists.size(estudiantes)}" 
+                     class="mensaje-todos-inscritos">
+                    ✓ Todos los estudiantes ya están inscritos en este curso.
+                </div>
+
+                <div th:if="${#sets.size(curso.estudiantes) < #lists.size(estudiantes)}" 
+                     class="estudiantes-disponibles">
+                    <div th:each="estudiante : ${estudiantes}">
+                        <div th:if="${!curso.estudiantes.contains(estudiante)}" class="estudiante-card">
+                            <span class="nombre" th:text="${estudiante.nombre}"></span>
+                            <form th:action="@{'/cursos/' + ${curso.id} + '/inscribir/' + ${estudiante.id}}"
+                                  method="post" style="margin: 0;">
+                                <button type="submit" class="btn-inscribir">✓ Inscribir</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón Volver -->
+            <a href="/cursos" class="btn-volver">← Volver a Cursos</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center py-4 mt-5">
+        <div class="container">
+            <p class="text-muted mb-0">&copy; 2026 Sistema de Gestión de Estudiantes - Universidad</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registro - Sistema de Estudiantes</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .registro-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 480px;
+            padding: 40px;
+        }
+        .registro-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        .registro-header h1 {
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .registro-header p {
+            color: #666;
+            font-size: 14px;
+        }
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .form-text-error {
+            color: #dc3545;
+            font-size: 13px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .btn-registro {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 15px;
+        }
+        .btn-registro:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+        .form-divider {
+            text-align: center;
+            margin: 25px 0;
+            color: #999;
+            font-size: 14px;
+        }
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .auth-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .auth-link a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        .form-group-custom {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="registro-container">
+        <div class="registro-header">
+            <h1>Crear Cuenta</h1>
+            <p>Sistema de Gestión de Estudiantes</p>
+        </div>
+
+        <form th:action="@{/registro}" th:object="${usuario}" method="post" novalidate>
+            <div class="form-group-custom">
+                <label for="nombre" class="form-label">Nombre Completo</label>
+                <input type="text" class="form-control" id="nombre" th:field="*{nombre}" 
+                       placeholder="Tu nombre" required>
+                <span th:if="${#fields.hasErrors('nombre')}"
+                      th:errors="*{nombre}" class="form-text-error"></span>
+            </div>
+
+            <div class="form-group-custom">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" 
+                       placeholder="tu@correo.com" required>
+                <span th:if="${#fields.hasErrors('email')}"
+                      th:errors="*{email}" class="form-text-error"></span>
+            </div>
+
+            <div class="form-group-custom">
+                <label for="contrasenia" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="contrasenia" th:field="*{contrasenia}" 
+                       placeholder="Mínimo 8 caracteres" required>
+                <span th:if="${#fields.hasErrors('contrasenia')}"
+                      th:errors="*{contrasenia}" class="form-text-error"></span>
+            </div>
+
+            <button type="submit" class="btn btn-registro">Registrarse</button>
+        </form>
+
+        <div class="form-divider">O</div>
+
+        <div class="auth-link">
+            <p>¿Ya tiene cuenta?</p>
+            <a th:href="@{/login}" class="btn btn-outline-primary w-100">Iniciar Sesión</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
